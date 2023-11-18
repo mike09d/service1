@@ -31,18 +31,18 @@ async def health_check():
 @app.get("/internal-api")
 def internal_api():
     logger.info("This is message start /internal-pi ")
-    response = requests.get(f"https://auth-backend.dev.simetrik-beta.io/healthy/")
+    response = requests.get(f"https://google.com")
     status_code_response = response.status_code
     content_response = response.content
     response.close()
-    logger.info("This is message close /internal-pi ")
+    logger.info("This is message close /internal-API ")
     message = f" 'statis code:' + {status_code_response}  + content: + {content_response} "
     return message
 
 @app.get("/external-api")
 def internal_api():
-    logger.info("This is message start /internal-pi ")
-    response = requests.get(f"https://auth-backend.dev.simetrik-beta.io/healthy/")
+    logger.info("This is message start /external-API")
+    response = requests.get(f"hhttps://google.com")
     status_code_response = response.status_code
     content_response = response.content
     response.close()
