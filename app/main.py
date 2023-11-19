@@ -1,12 +1,12 @@
 import asyncio
 import logging
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, FastAPI
 import requests
 import random
 from mangum import Mangum
-
+import uvicorn
 import requests
-from fastapi import FastAPI
+from starlette.types import ASGIApp
 
 random.seed(54321)
 
@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
+# app: ASGIApp = FastAPI(on_startup=[_startup_event])
 handler = Mangum(app)
 
 @app.get("/")
@@ -49,4 +50,3 @@ def internal_api():
     logger.info("This is message close /internal-pi ")
     message = f" 'statis code:' + {status_code_response}  + content: + {content_response} "
     return message
-

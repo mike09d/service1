@@ -1,20 +1,23 @@
-# FROM python:3.8.12-slim-bullseye
-FROM python:3.9.16-bullseye
+FROM public.ecr.aws/lambda/python:3.10
+WORKDIR /code
+
 # open port
-EXPOSE 5002
+EXPOSE 8000
 
+# root context
+COPY . ${LAMBDA_TASK_ROOT}
 # add requirements
-COPY requirements.txt /app/requirements.txt
+COPY requirements.txt . 
 
+RUN yum update -y && \
+    yum install -y git && \
+    yum install -y gcc python27 python27-devel && \
+    rm -Rf /var/cache/yum
+
+# Instalación de Mangum
+RUN pip install mangum
 # install requirements
-RUN pip install  --no-cache-dir -r app/requirements.txt
-
-# copy source code
-COPY . /app/app
-# set workdir
-WORKDIR /app/app
+RUN pip3 install  --no-cache-dir -r requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
 # Init command
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5002"]
-
-
+CMD ["app.main.handler"]
