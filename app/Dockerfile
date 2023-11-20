@@ -1,19 +1,20 @@
 # FROM python:3.8.12-slim-bullseye
-FROM python:3.9.16-bullseye
-# open port
-EXPOSE 5002
+FROM python:3.10
+
+# Set wordir
+WORKDIR /code
 
 # add requirements
-COPY requirements.txt /app/requirements.txt
+COPY requirements.txt . 
 
 # install requirements
-RUN pip install  --no-cache-dir -r app/requirements.txt
+RUN pip3 install  --no-cache-dir -r requirements.txt 
 
-# copy source code
-COPY . /app/app
-# set workdir
-WORKDIR /app/app
+COPY . .
+
+# open port
+EXPOSE 80
 
 # Init command
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5002"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
 

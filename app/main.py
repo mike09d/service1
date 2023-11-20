@@ -3,7 +3,6 @@ import logging
 from fastapi import HTTPException, status
 import requests
 import random
-from mangum import Mangum
 
 import requests
 from fastapi import FastAPI
@@ -14,7 +13,6 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
-handler = Mangum(app)
 
 @app.get("/")
 async def read_root():
@@ -35,14 +33,14 @@ def internal_api():
     status_code_response = response.status_code
     content_response = response.content
     response.close()
-    logger.info("This is message close /internal-API ")
+    logger.info("This is message close /internal-pi ")
     message = f" 'statis code:' + {status_code_response}  + content: + {content_response} "
     return message
 
 @app.get("/external-api")
 def internal_api():
-    logger.info("This is message start /external-API")
-    response = requests.get(f"hhttps://google.com")
+    logger.info("This is message start /internal-pi ")
+    response = requests.get(f"google.com")
     status_code_response = response.status_code
     content_response = response.content
     response.close()
